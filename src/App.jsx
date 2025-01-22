@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import PostsCard from './components/PostsCard'
 
+
 function App() {
   const initialFormData = {
     title: '',
@@ -11,6 +12,7 @@ function App() {
   }
 
   const baseApiUrl = 'http://localhost:3000'
+
   const [posts, setPosts] = useState([])
   const [formData, setFormData] = useState(initialFormData)
 
@@ -49,6 +51,13 @@ function App() {
       })
   }
 
+  const handleRemove = (id) => {
+    axios.delete(`${baseApiUrl}/posts/${id}`)
+      .then(res => {
+        setPosts((prevPosts) => prevPosts.filter(post => post.id !== id))
+      })
+  }
+
   useEffect(() => {
     fetchPosts()
   }, [])
@@ -64,6 +73,7 @@ function App() {
               <PostsCard
                 key={post.id}
                 post={post}
+                onRemove={() => handleRemove(post.id)}
               />
             )
           })}
