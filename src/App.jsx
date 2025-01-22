@@ -25,12 +25,28 @@ function App() {
   }
 
 
-  const handleChange = () => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value
     }))
+  }
+
+  const handleAddPost = (e) => {
+    e.preventDefault();
+    //creo l'array di tags
+    const tagsArr = formData.tags
+      .split(',')
+      .map(tag => tag.trim())
+    //oggetto da inviare
+    const newPost = { ...formData, tags: tagsArr }
+
+    //invio nuovo elemento
+    axios.post(`${baseApiUrl}/posts`, newPost)
+      .then(res => {
+        setPosts(res.data)
+      })
   }
 
   useEffect(() => {
@@ -113,7 +129,9 @@ function App() {
               <div className="mb-3 text-end">
                 <button
                   className='btn btn-warning my-3'
-                  type='submit'>
+                  type='submit'
+                  onClick={handleAddPost}
+                >
                   Aggiungi nuovo post
                 </button>
               </div>
