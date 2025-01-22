@@ -49,12 +49,15 @@ function App() {
       .then(res => {
         setPosts(res.data)
       })
+
+    setFormData(initialFormData)
   }
 
   const handleRemove = (id) => {
     axios.delete(`${baseApiUrl}/posts/${id}`)
       .then(res => {
         setPosts((prevPosts) => prevPosts.filter(post => post.id !== id))
+        // fetchPosts()
       })
   }
 
@@ -64,10 +67,10 @@ function App() {
 
 
   return (
-    <>
+    <div className='bg-dark'>
       <div className="container">
-        <h1 className="text-center">Posts</h1>
-        <div className="row">
+        <h1 className="text-center py-3 text-light"><strong>Posts</strong></h1>
+        <div className="row my-3">
           {posts.map(post => {
             return (
               <PostsCard
@@ -84,7 +87,7 @@ function App() {
         <div className="card">
           <div className="card-body">
             <div className="card-title">
-              <h4>Crea un nuovo post</h4>
+              <h4 className='my-3'>Crea un nuovo post</h4>
             </div>
             <form action="#">
               <div className="mb-3">
@@ -149,7 +152,7 @@ function App() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
